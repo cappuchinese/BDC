@@ -61,9 +61,11 @@ def write_csv(scores, outputcsv):
     if outputcsv is None:
         for i, score in enumerate(scores):
             print(f"{i}: {score}", file=sys.stdout)
-    writer = csv.writer(outputcsv)
-    for i, score in enumerate(scores):
-        writer.writerow([i, score])
+    # Write to csv file when given
+    else:
+        writer = csv.writer(outputcsv)
+        for i, score in enumerate(scores):
+            writer.writerow([i, score])
 
 
 def main(argv):
