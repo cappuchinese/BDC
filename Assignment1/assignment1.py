@@ -62,13 +62,13 @@ def write_csv(scores, outputcsv):
     # Check if there was an output file given
     if outputcsv is None:
         # Print the results in stdout
-        for i, score in enumerate(scores):
-            print(f"{i}: {score}", file=sys.stdout)
+        for i in range(0, len(scores)):
+            print(f"{i}: {scores[i]}", file=sys.stdout)
     # Write to csv file when given
     else:
         writer = csv.writer(outputcsv)
-        for i, score in enumerate(scores):
-            writer.writerow([i, score])
+        for i in range(0, len(scores)):
+            writer.writerow([i, scores[i]])
 
 
 def main(argv):
