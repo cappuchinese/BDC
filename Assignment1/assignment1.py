@@ -67,15 +67,16 @@ def write_csv(scores, outputcsv):
 
 def main(argv):
     """
-
-    :param argv:
+    Main function
+    :param argv: Command line arguments
     :return:
     """
     for fastqfile in argv.fastq_files:
         quality = read_fastq(fastqfile)
         with mp.Pool(processes=argv.n) as pool:
             scores = pool.map(calc_score, quality)
-            write_csv(scores, argv.csvfile)
+            write_csv(scores[0], argv.csvfile)
+    return 0
 
 
 if __name__ == '__main__':
@@ -92,4 +93,5 @@ if __name__ == '__main__':
                            help="Minstens 1 Illumina Fastq Format file om te verwerken")
     args = argparser.parse_args()
 
-    main(args)
+    EXITCODE = main(args)
+    sys.exit(EXITCODE)
