@@ -77,8 +77,24 @@ def main(argv):
     :param argv: Command line arguments
     :return:
     """
-    # Iterate through all the fastq files given
-    for fastqfile in argv.fastq_files:
+    if len(argv.fastq_files) > 1:
+        # Iterate through all the fastq files given
+        for fastqfile in argv.fastq_files:
+            # Get the quality lines
+            quality = read_fastq(fastqfile)
+            # Split filename if in other directory
+            if "/" in fastqfile.name:
+                filename = fastqfile.name.rsplit("/")[1]
+            else:
+                filename = fastqfile.name
+            # Calculate the scores and write to csv
+            with mp.Pool(processes=argv.n) as pool:
+                scores = pool.map(calc_score, quality)
+                # Write results to output with given name
+                with open(f"{filename}.output.csv", "w") as csvfile:
+                    write_csv(scores, csvfile)
+    else:
+        fastqfile = argv.fastq_files[0]
         # Get the quality lines
         quality = read_fastq(fastqfile)
         # Calculate the scores and write to csv
