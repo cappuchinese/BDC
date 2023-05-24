@@ -9,6 +9,7 @@ __date__ = 2023.05
 import csv
 import multiprocessing as mp
 import argparse as ap
+import sys
 
 
 def read_fastq(fastqfile):
