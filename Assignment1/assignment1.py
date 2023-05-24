@@ -26,6 +26,7 @@ def read_fastq(fastqfile):
     if num_lines % 4 != 0:
         raise ValueError('Invalid FASTQ format')
 
+    # Get every 4th line (the line with the quality)
     for i in range(3, len(lines), 4):
         qual_lines.append(lines[i].strip())
 
@@ -58,7 +59,9 @@ def write_csv(scores, outputcsv):
     :param scores: List of average PHRED scores
     :param outputcsv: Path to output file
     """
+    # Check if there was an output file given
     if outputcsv is None:
+        # Print the results in stdout
         for i, score in enumerate(scores):
             print(f"{i}: {score}", file=sys.stdout)
     # Write to csv file when given
@@ -74,8 +77,11 @@ def main(argv):
     :param argv: Command line arguments
     :return:
     """
+    # Iterate through all the fastq files given
     for fastqfile in argv.fastq_files:
+        # Get the quality lines
         quality = read_fastq(fastqfile)
+        # Calculate the scores and write to csv
         with mp.Pool(processes=argv.n) as pool:
             scores = pool.map(calc_score, quality)
             write_csv(scores, argv.csvfile)
