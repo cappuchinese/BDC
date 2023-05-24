@@ -76,7 +76,7 @@ def main(argv):
         quality = read_fastq(fastqfile)
         with mp.Pool(processes=argv.n) as pool:
             scores = pool.map(calc_score, quality)
-            write_csv(scores[0], argv.csvfile)
+            write_csv(scores, argv.csvfile)
     return 0
 
 
