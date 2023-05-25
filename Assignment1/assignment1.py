@@ -44,9 +44,9 @@ def calc_score(qual_lines):
     # Iterate through list of lines
     for line in qual_lines:
         # Enum each character of the line
-        for i, char in enumerate(line):
+        for i in range(0, len(line)):
             # Store the sum of the PHRED scores per position
-            phred = ord(char) - 33
+            phred = ord(line[i]) - 33
             position_scores[i] += phred
     # Calculate the average PHRED score per position
     avg_score = [score / len(qual_lines) for score in position_scores]
@@ -63,12 +63,12 @@ def write_csv(scores, outputcsv):
     if outputcsv is None:
         # Print the results in stdout
         for i in range(0, len(scores)):
-            print(f"{i}: {scores[i]}", file=sys.stdout)
+            print(f"{i}: {scores[i][0]}", file=sys.stdout)
     # Write to csv file when given
     else:
         writer = csv.writer(outputcsv)
         for i in range(0, len(scores)):
-            writer.writerow([i, scores[i]])
+            writer.writerow([i, scores[i][0]])
 
 
 def main(argv):
